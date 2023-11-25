@@ -13,8 +13,6 @@ const { route } = require("./regsiter.js");
 
 
 
-
-
 router.use(verify,async (req,res)=>{
 
     const token = req.token

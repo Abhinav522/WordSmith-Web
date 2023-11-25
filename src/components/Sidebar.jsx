@@ -12,10 +12,10 @@ function Sidebar() {
 
      
 
-            <li className="mb-7"><Link href="/dashboard/vocabulary">Vocabulary Building</Link></li>
-            <li className="mb-7"><Link href="/dashboard/grammar">Grammar Correction</Link></li>
-            <li className="mb-7"><Link href="/dashboard/translation">Translation</Link></li>
-            <li className="mb-7"><Link href="/dashboard/dictionary">Dictionary</Link></li>
+            <li className="mb-7 hover:font-medium hover:text-[#039982] hover:cursor-pointer" style={{ fontSize: "20px" }}><Link href="/dashboard/vocabulary">Vocabulary Building</Link></li>
+            <li className="mb-7 hover:font-medium hover:text-[#039982] hover:cursor-pointer" style={{ fontSize: "20px" }}><Link href="/dashboard/grammar">Grammar Correction</Link></li>
+            <li className="mb-7 hover:font-medium hover:text-[#039982] hover:cursor-pointer" style={{ fontSize: "20px" }}><Link href="/dashboard/translation">Translation</Link></li>
+            <li className="mb-7 hover:font-medium hover:text-[#039982] hover:cursor-pointer" style={{ fontSize: "20px" }}><Link href="/dashboard/dictionary">Dictionary</Link></li>
         </ul>
     </div>
   )

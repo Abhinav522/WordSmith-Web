@@ -26,7 +26,12 @@ import { faker } from '@faker-js/faker';
 function index() {
 
   const [progress, setProgress] = useState(0);
-
+  const [level, setLevel] = useState(0);
+  const [wordsForLevel, setWordsForLevel] = useState(0);
+  const [easy, setEasy] = useState(0);
+  const [medium, setMedium] = useState(0);
+  const [hard, setHard] = useState(0);
+  const [loaded,setLoaded] = useState(false)
 
   ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -41,6 +46,23 @@ function index() {
     Legend
   );
 
+  const calculateLevel = (progress) => {
+    console.log("Number")
+    // if (progress >= wordsForLevel) {
+    //   setLevel((prevState)=>{
+    //     return prevState+1;
+    //   });
+    //   setWordsForLevel((prevState)=>{
+    //     return prevState*2;
+    //   });
+    // } 
+
+    const level = progress / 10 ;
+
+    setLevel(parseInt(level))
+
+  };
+
   const options = {
     responsive: true,
     plugins: {
@@ -54,32 +76,27 @@ function index() {
     },
   };
 
-  const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+  const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
   const data = {
     labels,
     datasets: [
       {
-        label: 'Dataset 1',
-        data: labels.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
+        label: '',
+        data: labels.map(() => faker.datatype.number({ min: 1, max: 100 })),
         borderColor: 'rgb(255, 99, 132)',
         backgroundColor: 'rgba(255, 99, 132, 0.5)',
       },
-      {
-        label: 'Dataset 2',
-        data: labels.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
-        borderColor: 'rgb(53, 162, 235)',
-        backgroundColor: 'rgba(53, 162, 235, 0.5)',
-      },
+      
     ],
   };
 
   const data2 = {
-    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+    labels: ['Easy', 'Medium', 'Hard'],
     datasets: [
       {
-        label: '# of Votes',
-        data: [12, 19, 3, 5, 2, 3],
+        label: '# of Words',
+        data: [easy, medium, hard],
         backgroundColor: [
           'rgba(255, 99, 132, 0.2)',
           'rgba(54, 162, 235, 0.2)',
@@ -105,12 +122,15 @@ function index() {
   const [language, setLanguage] = useState("English");
 
 
+
   useEffect(() => {
+
     const lang = getCookie("language");
     setLanguage(lang);
     const token = getCookie("token");
-    console.log(token)
-    if (token) {
+
+    if (token && !loaded) {
+      setLoaded(true)
       fetch("http://localhost:4000/verify", {
         headers: {
           "Content-Type": "application/json",
@@ -144,8 +164,12 @@ function index() {
 
 
           const total = data.easy + data.medium + data.hard;
-          setProgress(total)
-
+          setEasy(data.easy);
+          setMedium(data.medium);
+          setHard(data.hard);
+          setProgress(total);
+          console.log("Times")
+          calculateLevel(total);
 
         })
 
@@ -178,35 +202,33 @@ function index() {
             <div style={{ height: 400, marginLeft: 0, }}><Doughnut data={data2} /></div>
           </div>
 
-          <p className='text-xl font-bold ml-20' style={{ marginBottom: 120 }}>Section wise Progress</p>
+          <p className='text-xl font-bold ml-20' style={{ marginBottom: 120 }}>Progress</p>
           <div style={{ display: "flex", marginTop: -70, marginLeft: 50 }}>
 
             <div style={{ padding: "30px", width: "400px", backgroundColor: "white", marginLeft: "30px", borderRadius: 10, border: "solid 1px #D9E0E6" }}>
-              <div style={{ padding: "0px 0px 30px 0px", fontSize: 16, fontWeight: "bold" }}> Vocab progress</div>
+              <div style={{ padding: "0px 0px 30px 0px", fontSize: 16, fontWeight: "bold" }}>Levels Completed {level} / 100</div>
 
               <div class="w-full bg-gray-200 rounded-full bg-gray">
-                <div class="bg-[#00A58A] text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full" style={{ width: "85%", height: 15 }}> </div>
+                <div class="bg-[#00A58A] text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full" style={{ width: `${level}%`, height: 15 }}> </div>
               </div>
 
             </div>
             <div style={{ padding: "30px", width: "400px", backgroundColor: "white", marginLeft: "30px", borderRadius: 10, border: "solid 1px #D9E0E6" }}>
-              <div style={{ padding: "0px 0px 30px 0px", fontSize: 16, fontWeight: "bold" }}> Vocab progress</div>
+              <div style={{ padding: "0px 0px 30px 0px", fontSize: 16, fontWeight: "bold" }}> Level progress {(progress%10) *10}%</div>
 
               <div class="w-full bg-gray-200 rounded-full bg-gray">
-                <div class="bg-[#00A58A] text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full" style={{ width: "55%", height: 15 }}> </div>
+                <div class="bg-[#00A58A] text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full" style={{ width: `${(progress%10) *10}%`, height: 15 }}> </div>
               </div>
 
             </div>
-
             <div style={{ padding: "30px", width: "400px", backgroundColor: "white", marginLeft: "30px", borderRadius: 10, border: "solid 1px #D9E0E6" }}>
-              <div style={{ padding: "0px 0px 30px 0px", fontSize: 16, fontWeight: "bold" }}> Vocab progress</div>
+              <div style={{ padding: "0px 0px 30px 0px", fontSize: 16, fontWeight: "bold" }}> Words Learned {progress} / 1000</div>
 
               <div class="w-full bg-gray-200 rounded-full bg-gray">
-                <div class="bg-[#00A58A] text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full" style={{ width: "25%", height: 15 }}> </div>
+                <div class="bg-[#00A58A] text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full" style={{ width: `${progress/10}%`, height: 15 }}> </div>
               </div>
 
             </div>
-
 
 
           </div>

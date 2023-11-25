@@ -145,9 +145,6 @@ function vocabulary() {
 
 
 
-
-
-
   }, [selected]);
 
 
@@ -326,16 +323,16 @@ function vocabulary() {
               }}
             >
               <div
-                className='bg-white p-20 rounded-[20px] '
+                className='bg-white p-20 m-5 rounded-[20px] '
                 style={{ border: "solid 1px #D9E0E6" }}
               >
                 <p className='text-5xl font-bold mb-12'><span onMouseEnter={translate}>{loading ? "Loading" : words[count]["word"]? words[count]["word"]:""}</span></p>
-                <p className='mb-20' onMouseEnter={translate}>{loading ? "Loading " : words[count].defs?words[count].defs:""}</p>
+                <p className='text-2xl mb-20' onMouseEnter={translate}>{loading ? "Loading " : words[count].defs?words[count].defs:""}</p>
 
               </div>
               <div
-                className='flex justify-between '
-                style={{ margin: "auto", marginTop: 40 }}
+                className='flex justify-between m-5'
+                style={{ margin: "40", marginTop: 40}}
               >
                 <button
                   onClick={known}
